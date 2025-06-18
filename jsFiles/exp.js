@@ -17,71 +17,37 @@ const exp = (function() {
             `<div class='parent'>
                 <p><strong>Welcome to Spin the Wheel!</strong></p>
                 <p>In Spin the Wheel, you'll spin a series of prize wheels.</p>
-                <p>Each time you spin a prize wheel, you'll earn points.</p>
-                <p>Your goal is to earn as many points as possible by spinning the prize wheels!</p>
+                <p>With each spin, you'll earn points.</p>
+                <p>Your goal is to earn as many points as possible!</p>
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel has four wedges, like this:</p>
-                <img src="./img/spinner_75-25.png" style="width:40%; height:40%">
+                <p>Each wheel is divided into six wedges, like this:</p>
+                <img src="./img/arrow-up.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel has a "point minimum."</p>
-                <p>The point minimum is the minimum number of points you'll earn per spin.</p>
+                <p>When a wheel stops spinning, the wedge you land on will activate.</p>
+                <p>The activated wedge will turn black, like this:</p>
+                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Before each new wheel, you'll see a message indicating the wheel's point minimum.</p>
-                <p>For example, this message indicates that the upcoming wheel has a 5-point minimum.</p>
-                <br>
-                <p><span style='font-size:100px'><strong>+5</strong></span></p>
-                <p><span style='font-size:40px'>Minimum Points Per Spin</span></p>            
-            </div>`,
-
-            `<div class='parent'>
-                <p>In addition to the point minimum, you can earn 10-point bonuses.</p>
-                <p>Your probability of winning a 10-point bonus depends on where you land.</p>
-                <p>For example, landing on 75% gives you an 75% of winning a 10-point bonus; landing on 25% gives you a 25% chance of winning a 10-point bonus.</p>
-                <img src="./img/spinner_75-25.png" style="width:40%; height:40%">
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you earn a 10-point bonus, the wedge will turn green.</p>
-                <p>You'll see you earned 10 points plus the minimum.</p>
-                <p>In this example, the minimum was 5, so the total is 15.</p>
-                <img src="./img/spinner_bonus.png" style="width:40%; height:40%">
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you don't earn a 10-point bonus, the wedge will turn blue.</p>
-                <p>You'll see you only earned the minimum.</p>
-                <p>In this example, the minimum was 5, so the total is 5.</p>
-                <img src="./img/spinner_no-bonus.png" style="width:40%; height:40%">
-            </div>`,
-
-            `<div class='parent'>
-                <p>Different wheels give you different probabilities of earning 10-point bonuses.</p>
-                <p>This wheel gives you a 60% or 40% chance, depending on where you land.</p>
-                <img src="./img/spinner_60-40.png" style="width:40%; height:40%">
-            </div>`,
-
-           `<div class='parent'>
-                <p>This wheel gives you a 90% or 10% chance of a 10-point bonus, depending on where you land.</p>
-                <img src="./img/spinner_90-10.png" style="width:40%; height:40%">
+                <p>The number on the activated wedge is added to your total score.</p>
+                <p>In this example, you'd gain 7 points.</p>
+                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
             </div>`],
 
         postIntro: [
             `<div class='parent'>
                 <p>To spin a prize wheel, just grab it with your cursor and give it a spin!</p>
                 <p>Watch the animation below to see how it's done.</p>
-                <img src="./img/spin-gif.gif" style="width:40%; height:40%">
+                <img src="./img/spin-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>Throughout Spin the Wheel, you'll answer questions about your feelings.</p>
-                <p>Specifically, you'll report how <strong>immersed and engaged</strong> you feel while spinning each wheel,<br>
-                as well as how <strong>happy</strong> you currently feel.</p>
+                <p>Specifically, you'll report how <strong>immersed and absorbed</strong> you feel while spinning each wheel.</p>
             </div>`,      
 
             `<div class='parent'>
@@ -107,10 +73,7 @@ const exp = (function() {
         allow_keys: false,
     };
 
-    let correctAnswers = [
-        `I have a 90% chance of winning a 10-point bonus.`, 
-        `I have a 60% chance of winning a 10-point bonus.`, 
-        `I have a 10% chance of winning a 10-point bonus.`];
+    let correctAnswers = [`9`, `7`, `3`, `1`, `Earn as many points as possible.`];
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -126,19 +89,29 @@ const exp = (function() {
             </div>`,
         questions: [
             {
-                prompt: "What does it mean if you land on a wedge that says 90%?", 
+                prompt: `If you land on a 9, how many points will you earn?`, 
                 name: `attnChk1`, 
-                options: [`I have a 90% chance of winning a 10-point bonus.`, `I have a 60% chance of winning a 10-point bonus.`, `I have a 10% chance of winning a 10-point bonus.`],
+                options: ['9', '7', '3', '1'],
             },
             {
-                prompt: "What does it mean if you land on a wedge that says 60%?", 
+                prompt: `If you land on a 7, how many points will you earn?`, 
                 name: `attnChk2`, 
-                options: [`I have a 90% chance of winning a 10-point bonus.`, `I have a 60% chance of winning a 10-point bonus.`, `I have a 10% chance of winning a 10-point bonus.`],
+                options: ['9', '7', '3', '1'],
             },
             {
-                prompt: "What does it mean if you land on a wedge that says 10%?", 
-                name: `attnChk3`, 
-                options: [`I have a 90% chance of winning a 10-point bonus.`, `I have a 60% chance of winning a 10-point bonus.`, `I have a 10% chance of winning a 10-point bonus.`],
+                prompt: `If you land on a 3, how many points will you earn?`, 
+                name: `attnCh3`, 
+                options: ['9', '7', '3', '1'],
+            },
+            {
+                prompt: `If you land on a 1, how many points will you earn?`, 
+                name: `attnCh4`, 
+                options: ['9', '7', '3', '1'],
+            },
+            {
+                prompt: `What is your goal?`, 
+                name: `attnChk5`, 
+                options: [`Spin the wheel as fast as possible.`, `Earn as few points as possible.`, `Earn as many points as possible.`],
             },
         ],
         scale_width: 500,
@@ -185,118 +158,100 @@ const exp = (function() {
     *
     */
 
+    let colors = ["#0077CC", "#FF6B2D"];
+
+    colors = jsPsych.randomization.repeat(colors, 1);
 
     // define each wedge
     const wedges = {
-        pct_90: {color:"#616360", font: 'white', label:"90%", pct: .9},
-        pct_10: {color:"#c7c8c7", font: 'black', label:"10%", pct: .1},
-        pct_75: {color:"#616360", font: 'white', label:"75%", pct: .75},
-        pct_25: {color:"#c7c8c7", font: 'black', label:"25%", pct: .25},
-        pct_60: {color:"#616360", font: 'white', label:"60%", pct: .6},
-        pct_40: {color:"#c7c8c7", font: 'black', label:"40%", pct: .4},
+        one: {color: colors[0], font: 'white', label:"1", points: 1},
+        nine: {color: colors[1], font: 'white', label:"9", points: 9},
     };
-
 
     // define each wheel
-    const wheels = [
-
-            {sectors: [ wedges.pct_90, wedges.pct_10, wedges.pct_90, wedges.pct_10 ], wheel_id: 1, value: 2, ev: 7, sd: 5, mi: .531},
-            {sectors: [ wedges.pct_75, wedges.pct_25, wedges.pct_75, wedges.pct_25 ], wheel_id: 2, value: 2, ev: 7, sd: 5, mi: .189},
-            {sectors: [ wedges.pct_60, wedges.pct_40, wedges.pct_60, wedges.pct_40 ], wheel_id: 3, value: 2, ev: 7, sd: 5, mi: .029},
-
-            {sectors: [ wedges.pct_90, wedges.pct_10, wedges.pct_90, wedges.pct_10 ], wheel_id: 4, value: 5, ev: 10, sd: 5, mi: .531},
-            {sectors: [ wedges.pct_75, wedges.pct_25, wedges.pct_75, wedges.pct_25 ], wheel_id: 5, value: 5, ev: 10, sd: 5, mi: .189},
-            {sectors: [ wedges.pct_60, wedges.pct_40, wedges.pct_60, wedges.pct_40 ], wheel_id: 6, value: 5, ev: 10, sd: 5, mi: .029},
-
-            {sectors: [ wedges.pct_90, wedges.pct_10, wedges.pct_90, wedges.pct_10 ], wheel_id: 7, value: 8, ev: 13, sd: 5, mi: .531},
-            {sectors: [ wedges.pct_75, wedges.pct_25, wedges.pct_75, wedges.pct_25 ], wheel_id: 8, value: 8, ev: 13, sd: 5, mi: .189},
-            {sectors: [ wedges.pct_60, wedges.pct_40, wedges.pct_60, wedges.pct_40 ], wheel_id: 9, value: 8, ev: 13, sd: 5, mi: .029},
-
+    let wheels = [
+            {sectors: [ wedges.one, wedges.one, wedges.one, wedges.one, wedges.one, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+            {sectors: [ wedges.one, wedges.nine, wedges.one, wedges.nine, wedges.one, wedges.nine ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
+            {sectors: [ wedges.one, wedges.nine, wedges.nine, wedges.nine, wedges.nine, wedges.nine ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
         ];
 
-    let scoreTracker = 0; // track current score
+    wheels = jsPsych.randomization.repeat(wheels, 1);
 
-    let round = 1;  // track current round
 
-    const pointMin = {
-        type: jsPsychHtmlKeyboardResponse,
-        stimulus: function() {
-            let value = jsPsych.timelineVariable('value')
-            let html = `<div class='parent'>
-                <p><span style='font-size:100px'><strong>+${value}</strong></span></p>
-                <p><span style='font-size:40px'>Minimum Points Per Spin</span></p>            
-            </div>`;
-            return html;
-        },
-        data: {wheel_id: jsPsych.timelineVariable('wheel_id'), ev: jsPsych.timelineVariable('ev'), sd: jsPsych.timelineVariable('sd'), value: jsPsych.timelineVariable('value'), mi: jsPsych.timelineVariable('mi')},
-        choices: "NO_KEYS",
-        trial_duration: 3000,
-    };      
+    const MakeSpinLoop = function(wheel, round) {
 
-    const spin = {
-        type: jsPsychCanvasButtonResponse,
-        stimulus: function(c, spinnerData) {
-            createSpinner(c, spinnerData, scoreTracker, jsPsych.timelineVariable('sectors'), jsPsych.timelineVariable('value'));
-        },
-        canvas_size: [500, 500],
-        score: function() {
-            return scoreTracker
-        },
-        point_minimum: jsPsych.timelineVariable('value'),
-        post_trial_gap: 1000,
-        data: {wheel_id: jsPsych.timelineVariable('wheel_id'), ev: jsPsych.timelineVariable('ev'), sd: jsPsych.timelineVariable('sd'), value: jsPsych.timelineVariable('value'), mi: jsPsych.timelineVariable('mi')},
-        on_finish: function(data) {
-            data.round = round;
-            scoreTracker = data.score
+        let outcome;
+        let trial = 1;
+
+        // trial: spinner
+        const spin = {
+            type: jsPsychCanvasButtonResponse,
+            stimulus: function(c, spinnerData) {
+                createSpinner(c, spinnerData, wheel.sectors, false);
+            },
+            canvas_size: [500, 500],
+            scoreBoard: function() {
+                return '';
+            },
+            data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
+            on_finish: function(data) {
+                data.trial = trial;
+                outcome = data.outcome;
+            }
+        };
+
+        const tokens = {
+            type: jsPsychHtmlKeyboardResponse,
+            stimulus: function() {
+                let standardFeedback;
+
+                if (outcome == "9") {
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[1]}">+9 Points</div> </div>`;
+                } else {
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[0]}">+1 Point</div> </div>`;
+                }
+
+                return standardFeedback;
+
+            },
+            choices: "NO_KEYS",
+            trial_duration: 2000,
+            data: {round: round + 1},
+            on_finish: function(data) {
+                data.trial = trial;
+                trial++;
+            },
+        };
+
+        const spin_loop = {
+            timeline: [spin, tokens],
+            repetitions: 3,
         }
-    };
 
-    // trial: flow DV
-    const flowMeasure = {
-        type: jsPsychSurveyLikert,
-        questions: [
-            {prompt: `During the last round of Spin the Wheel,<br>to what extent did you feel immersed and engaged in what you were doing?`,
-            name: `flow`,
-            labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
-        ],
-        randomize_question_order: false,
-        scale_width: 600,
-        data: {wheel_id: jsPsych.timelineVariable('wheel_id'), ev: jsPsych.timelineVariable('ev'), sd: jsPsych.timelineVariable('sd'), value: jsPsych.timelineVariable('value'), mi: jsPsych.timelineVariable('mi')},
-        on_finish: function(data) {
-            data.round = round;
-            let scoreArray = jsPsych.data.get().select('score').values;
-            data.score = scoreArray[scoreArray.length - 1];
-            saveSurveyData(data);
-        }
-    };
+        const flowMeasure = {
+            type: jsPsychSurveyLikert,
+            questions: [
+                {prompt: `During the last round of Spin the Wheel,<br>to what extent did you feel <b>immersed</b> and <b>absorbed</b> in what you were doing?`,
+                name: `flow`,
+                labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
+            ],
+            randomize_question_order: false,
+            scale_width: 600,
+            data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
+            on_finish: function(data) {
+                let scoreArray = jsPsych.data.get().select('score').values;
+                data.score = scoreArray[scoreArray.length - 1];
+                saveSurveyData(data);
+            }
+        };
 
-    // trial: happiness DV
-    const happinessMeasure = {
-        type: jsPsychSurveyLikert,
-        questions: [
-            {prompt: `How happy are you right now?`,
-            name: `happiness`,
-            labels: ['0<br>Very unhappy', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Very happy']},
-        ],
-        randomize_question_order: false,
-        scale_width: 600,
-        data: {wheel_id: jsPsych.timelineVariable('wheel_id'), ev: jsPsych.timelineVariable('ev'), sd: jsPsych.timelineVariable('sd'), value: jsPsych.timelineVariable('value'), mi: jsPsych.timelineVariable('mi')},
-        on_finish: function(data) {
-            data.round = round;
-            let scoreArray = jsPsych.data.get().select('score').values;
-            data.score = scoreArray[scoreArray.length - 2];
-            saveSurveyData(data);
-            round++;
-        }
-    };
+        this.timeline = [spin_loop, flowMeasure];
+    }
 
-    // timeline: main task
-    p.task = {
-        timeline: [pointMin, spin, flowMeasure, happinessMeasure],
-        repetitions: 1,
-        timeline_variables: wheels,
-        randomize_order: true,
-    };
+
+    p.round1 = new MakeSpinLoop(wheels[0], 0)
+    p.round2 = new MakeSpinLoop(wheels[1], 1)
+    p.round3 = new MakeSpinLoop(wheels[2], 2)
 
    /*
     *
@@ -312,51 +267,6 @@ const exp = (function() {
             pages: html.postTask,
             show_clickable_nav: true,
             post_trial_gap: 500,
-        };
-
-        const genFlowScale = ['-2<br>Totally<br>Disagree', '-1<br>Disagree', '0<br>Neither agree<br>nor disagree', '1<br>Agree', '2<br>Totally<br>Agree'];
-
-        const flowGenQuestions = {
-            type: jsPsychSurveyLikert,
-            preamble:
-                `<div style='padding-top: 50px; width: 900px; font-size:16px'>
-                    <p>Please express the extent to which you disagree or agree with each statement.</p>
-                </div>`,
-            questions: [
-
-                {
-                    prompt: `I rarely find tasks only moderately engaging—I find most activities either completely immersive or extremely boring.`,
-                    name: `genFlow_1`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-
-                {
-                    prompt: `I often alternate between feelings of intense engagement and complete boredom.`,
-                    name: `genFlow_2`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-
-                {
-                    prompt: `For me, activities are either extremely engaging or dull—there's rarely an in-between.`,
-                    name: `genFlow_3`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-
-                {
-                    prompt: `My mood often swings between being deeply engaged in what I'm doing and feeling totally bored.`,
-                    name: `genFlow_4`,
-                    labels: genFlowScale,
-                    required: true,
-                },
-            ],
-            randomize_question_order: false,
-            scale_width: 500,
-            on_finish: (data) => {
-                saveSurveyData(data); 
-            },
         };
 
         const gender = {
@@ -403,7 +313,7 @@ const exp = (function() {
         }; 
 
         const demos = {
-            timeline: [taskComplete, flowGenQuestions, gender, age, ethnicity, english, finalWord]
+            timeline: [taskComplete, gender, age, ethnicity, english, finalWord]
         };
 
         return demos;
@@ -429,6 +339,6 @@ const exp = (function() {
 
 }());
 
-const timeline = [exp.consent, exp.instLoop, exp.postIntro, exp.task, exp.demographics, exp.save_data];
+const timeline = [exp.consent, exp.instLoop, exp.postIntro, exp.round1, exp.round2, exp.round3, exp.demographics, exp.save_data];
 
 jsPsych.run(timeline);

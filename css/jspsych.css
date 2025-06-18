@@ -569,13 +569,11 @@
   width: 16%;
   height: 8%;
   margin: -8%;
-  color: black;
+  color: white;
   background: white;
-  box-shadow: 0 0 0 8px white, 0 0px 15px 5px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 8px currentColor, 0 0px 15px 5px rgba(0, 0, 0, 0.6);
   border-radius: 10%;
-  transition: 0.1s;
-  font-weight: bold;
-  font-size: 1.5rem;  /* Adjust as needed */
+  transition: 0.8s;
 }
 
 #spin::after {
@@ -583,7 +581,7 @@
   position: absolute;
   top: -48px;
   border: 48px solid transparent;
-  border-bottom-color: white;
+  border-bottom-color: currentColor;
   border-top: none;
 }
 
@@ -635,4 +633,86 @@
   transform: translate(-50%, -50%);
   font-size: 40px;
   color: 'black';
+}
+
+.bonus-container {
+    position: relative;
+    text-align: center;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    height: 465px;
+    width: 465px;
+    border: 2px solid grey; /* Dotted black border */
+}
+
+.bonus-image {
+    width: 465px;
+    height: auto;
+}
+
+.bonus-text {
+    position: absolute;
+    top: 185px;
+    left: 50%;
+    transform: translate(-55%, 0%);
+    color: #FF007F;
+    font-size: 90px;
+    font-weight: bold;
+    text-shadow: 
+      -1px -1px 0 #000, /* Black outline */
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      1px 1px 0 #000;
+}
+
+.probs {
+    font-size: 32px;
+    color: black;
+    line-height: 37px;
+}
+
+.win-text {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 70px;
+    font-weight: bold;
+    color: green;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.win-text-inst {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-size: 70px;
+    font-weight: bold;
+    color: green;
+    margin-top: 100px;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.loss-text {
+    position: absolute;
+    top: 50%; 
+    left: 50%; 
+    width: 600px;
+    transform: translate(-50%, -50%); 
+    font-size: 70px;
+    font-weight: bold;
+    color: grey;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
+}
+
+.loss-text-inst {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    font-size: 70px;
+    font-weight: bold;
+    color: grey;
+    margin-top: 100px;
+    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
 }
