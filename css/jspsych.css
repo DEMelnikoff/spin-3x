@@ -362,7 +362,7 @@
 .jspsych-btn {
   display: inline-block;
   padding: 6px 12px;
-  margin-bottom: 20px;
+  margin: 0px;
   font-size: 14px;
   font-weight: 400;
   font-family: "Open Sans", "Arial", sans-serif;
@@ -569,11 +569,13 @@
   width: 16%;
   height: 8%;
   margin: -8%;
-  color: white;
+  color: black;
   background: white;
-  box-shadow: 0 0 0 8px currentColor, 0 0px 15px 5px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 0 0 8px white, 0 0px 15px 5px rgba(0, 0, 0, 0.6);
   border-radius: 10%;
-  transition: 0.8s;
+  transition: 0.1s;
+  font-weight: bold;
+  font-size: 1.5rem;  /* Adjust as needed */
 }
 
 #spin::after {
@@ -581,10 +583,14 @@
   position: absolute;
   top: -48px;
   border: 48px solid transparent;
-  border-bottom-color: currentColor;
+  border-bottom-color: white;
   border-top: none;
 }
 
+.parent {
+    position: relative;
+    width: 850px;
+}
 
 #jspsych-canvas-button-response-stimulus {
   display: inline-flex;
@@ -601,106 +607,32 @@
   position: relative;
   display: flex;
   justify-content: center;
-  height:145px; width:300px; 
+  height:120px; width:300px; 
   margin: auto;
   border: 3px solid;
   border-color: grey;
   background: #ededed;
   margin-bottom: 48px;
-}
 
-.score-board-blank {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  height:145px; width:300px; 
-  margin: auto;
-  border: 3px solid;
-  border-color: white;
-  background: white;
-  margin-bottom: 48px;
 }
 
 .score-board-title {
   position: absolute;
   top: 20px;
-  font-size:30px;
+  font-size:25px;
 }
 
 .score-board-score {
   position: absolute;
-  top: 80px;
-  font-size:50px;
+  top: 70px;
+  font-size:40px;
 }
 
-.score-board-spins {
-  position: absolute;
-  top: 110px;
-  font-size:25px;
-}
-
-.feedback-area {
-  display: inline-flex;
-  position: relative;
-  overflow: hidden;
-  height: 500px;
-  width: 500px;
-}
-
-
-.win-text {
-    position: absolute;
-    top: 25%; 
-    left: 50%; 
-    width: 600px;
-    transform: translate(-50%, -50%); 
-    font-size: 70px;
-    font-weight: bold;
-    color: green;
-    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
-}
-
-.win-text-inst {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    font-size: 70px;
-    font-weight: bold;
-    color: green;
-    margin-top: 100px;
-    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
-}
-
-.loss-text {
-    position: absolute;
-    top: 25%; 
-    left: 50%; 
-    width: 600px;
-    transform: translate(-50%, -50%); 
-    font-size: 70px;
-    font-weight: bold;
-    color: grey;
-    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
-}
-
-.loss-text-inst {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    font-size: 70px;
-    font-weight: bold;
-    color: grey;
-    margin-top: 100px;
-    text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000;
-}
-
-.text-highlight {
-    color: green;
-    font-weight: bold;
-}
-
-.parent {
-    position: relative;
-    height: 600px;
-    width: 850px;
+.pFlip-style {
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  color: 'black';
 }

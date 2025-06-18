@@ -6,26 +6,39 @@ const jsPsych = initJsPsych({
         if(!boot) {
             document.body.innerHTML = 
                 `<div align='center' style="margin: 10%">
-                    <p>Thank you!<p>
-                    <b>Press wait to proceed to the next study in this lab session.</b>
+                    <p>Thank you for participating!<p>
+                    <b>You will be automatically re-directed to Prolific in a few moments.</b>
                 </div>`;
             setTimeout(() => { 
-              location.href = `https://delaware.ca1.qualtrics.com/jfe/form/SV_cBKNOKvdxUArwQm?id=${sona_id}`
-            }, 1000);
+                location.href = `https://app.prolific.co/submissions/complete?cc=${completionCode}`
+            }, 2000);
         }
     },
 });
 
 // set and save subject ID
-let sona_id = jsPsych.data.getURLVariable("id");
-if (!sona_id) { sona_id = jsPsych.randomization.randomID(10) };
-jsPsych.data.addProperties({ subject: sona_id, date: new Date() });
+let subject_id = jsPsych.data.getURLVariable("PROLIFIC_PID");
+if (!subject_id) { subject_id = jsPsych.randomization.randomID(10) };
+jsPsych.data.addProperties({ subject: subject_id });
 
 // define file name
-const filename = `${sona_id}.csv`;
+const filename = `${subject_id}.csv`;
 
 // define completion code for Prolific
-const completionCode = "C1ACNNE6";
+const completionCode = "CW0CMZ8Y";
+
+// track fps
+let frames = 0, tic = performance.now(), fpsAdjust;
+(function getFpsAdjust() {
+    const req = window.requestAnimationFrame(getFpsAdjust);
+    frames++;
+    if (frames == 120) { 
+        fpsAdjust = (performance.now() - tic) / 2000;
+        jsPsych.data.addProperties({fpsAdjust: fpsAdjust});
+        frames = 0;
+        tic = performance.now();
+    };
+})();
 
 // when true, boot participant from study without redirecting to Prolific
 let boot = false;
@@ -47,13 +60,17 @@ const getTotalErrors = (data, correctAnswers) => {
 };
 
 // code for spinner task
-const createSpinner = function(canvas, spinnerData, sectors, lose) {
+const createSpinner = function(canvas, spinnerData, score, sectors, value) {
 
   /* get context */
   const ctx = canvas.getContext("2d"); 
 
   /* get pointer */
   const pointer = document.querySelector("#spin");
+  pointer.innerText = ``;
+
+  /* get score message */
+  const scoreMsg = document.getElementById("score");
 
   /* get wheel properties */
   let wheelWidth = canvas.getBoundingClientRect()['width'];
@@ -66,10 +83,12 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
   const arc = (2 * PI) / tot; // arc sizes in radians
 
   /* spin dynamics */
-  let friction = 0.98;  // 0.995=soft, 0.99=mid, 0.98=hard
+  const friction = 0.97;  // 0.995=soft, 0.99=mid, 0.98=hard
   const angVelMin = 5; // Below that number will be treated as a stop
   let angVelMax = 0; // Random ang.vel. to acceletare to 
   let angVel = 0;    // Current angular velocity
+  let dt = (60 / 1000) * fpsAdjust;
+
 
   /* state variables */
   let isGrabbed = false;       // true when wheel is grabbed, false otherwise
@@ -80,12 +99,9 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
   let correctSpeed = [0]       // speed corrected for 360-degree limit
   let startAngle = null;       // angle of grab
   let oldAngle = 0;            // wheel angle prior to last perturbation
-  let oldAngle_corrected;
   let currentAngle = null;     // wheel angle after last perturbation
   let onWheel = false;         // true when cursor is on wheel, false otherwise
-  let spin_num = 5             // number of spins
-  let liveSectorLabel;
-  let direction;
+
 
   /* define spinning functions */
 
@@ -134,13 +150,9 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
       oldAngle = currentAngle;
       let speed = correctSpeed[0];
       if (Math.abs(speed) > angVelMin) {
-        direction = (speed > 0) ? 1 : -1;
         isAccelerating = true;
         isSpinning = true;
         angVelMax = rand(25, 50);
-        if (lose) {
-          speed = (direction == 1) ? Math.min(speed, 25) : Math.max(speed, -25);
-        };
         giveMoment(speed)
       };
     };   
@@ -149,24 +161,11 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
   const giveMoment = function(speed) {
 
     // stop accelerating when max speed is reached
-    if (lose) {
-      if (Math.abs(speed) >= 29.5 && liveSectorLabel == "L") isAccelerating = false;
-    } else {
-      if (Math.abs(speed) >= angVelMax) isAccelerating = false;
-    }
-
-    let liveSector = sectors[getIndex(oldAngle)];
-    liveSectorLabel = liveSector.label;
-    oldAngle_corrected = (oldAngle < 0) ? 360 + (oldAngle % 360) : oldAngle % 360;
-
+    if (Math.abs(speed) >= angVelMax) isAccelerating = false;
 
     // accelerate
     if (isAccelerating) {
-      if (lose) {
-        speed = (direction == 1) ? Math.min(speed * 1.06, 29.5) : Math.max(speed * 1.06, -29.5);
-      } else {
-        speed *= 1.06
-      };
+      speed *= (1.06 ** fpsAdjust); // Accelerate
       const req = window.requestAnimationFrame(giveMoment.bind(this, speed));
       oldAngle += speed;
       lastAngles.shift();
@@ -177,15 +176,9 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
     // decelerate and stop
     else {
       isAccelerating = false;
-      speed *= friction; // Decelerate by friction  
+      speed *= (friction ** fpsAdjust); // Decelerate by friction  
       const req = window.requestAnimationFrame(giveMoment.bind(this, speed));
-
-      if ( (Math.abs(speed) > angVelMin * .2) || (Math.abs(speed) > angVelMin * .05 && oldAngle_corrected < 275) || (Math.abs(speed) > angVelMin * .05 && oldAngle_corrected > 300) ) {
-        oldAngle += speed;
-        lastAngles.shift();
-        lastAngles.push(oldAngle);
-        render(oldAngle);  
-      } else if (!lose && Math.abs(speed) > angVelMin * .1) {
+      if (Math.abs(speed) > angVelMin * .1) {
         // decelerate
         oldAngle += speed;
         lastAngles.shift();
@@ -194,12 +187,20 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
       } else {
         // stop spinner
         speed = 0;
-        friction = .98;
         currentAngle = oldAngle;
-        let sector = sectors[getIndex(currentAngle)];
-        spinnerData.outcome = sector.label;
-        drawSector(sectors, getIndex(currentAngle));
-        updateScore(parseFloat(sector.label), sector.color);
+        let index = getIndex();
+        let sector = sectors[index];
+        let random_draw = Math.random();
+        let bonus = (sector.pct > random_draw) ? 10 : 0;
+        console.log(sector.pct, random_draw, bonus);
+        let total_points = value + bonus;
+        let color = (bonus > 0) ? `#4CAF50` : `#4682b4`;
+        spinnerData.pct_outcomes.push(sector.pct);
+        spinnerData.bonus_outcomes.push(total_points);
+        setTimeout(() => {
+          drawSector(sectors, index, total_points, color);
+          updateScore(total_points, color);
+        }, 500);
         window.cancelAnimationFrame(req);
       };
     };
@@ -209,19 +210,20 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
   const rand = (m, M) => Math.random() * (M - m) + m;
 
   const updateScore = (points, color) => {
-    spin_num--;
-    let s = 's';
-    spin_num == 1 ? s == '' : s == 's';
+    score += points;
+    spinnerData.score = score;
+    scoreMsg.innerHTML = `<span style="color:${color}; font-weight: bolder">${score}</span>`;
     setTimeout(() => {
-      isSpinning = false;
-      drawSector(sectors, null);
+      scoreMsg.innerHTML = `${score}`
+      drawSector(sectors, null, null, null);
+      isSpinning = (spinnerData.pct_outcomes.length == 8) ? true : false;
       onWheel ? canvas.style.cursor = "grab" : canvas.style.cursor = "";
     }, 1000);
   };
 
-  const getIndex = (x) => {
+  const getIndex = () => {
     let normAngle = 0;
-    let modAngle = x % 360;
+    let modAngle = currentAngle % 360;
     if (modAngle > 270) {
       normAngle = 360 - modAngle + 270;
     } else if (modAngle < -90) { 
@@ -233,98 +235,48 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
     return sector
   }
 
-  const textUnderline = function(ctx, text, x, y, color, textSize, align){
-
-    //Get the width of the text
-    var textWidth = ctx.measureText(text).width;
-
-    //var to store the starting position of text (X-axis)
-    var startX;
-
-    //var to store the starting position of text (Y-axis)
-    // I have tried to set the position of the underline according 
-    // to size of text. You can change as per your need
-    var startY = y+(parseInt(textSize)/10);
-
-    //var to store the end position of text (X-axis)
-    var endX;
-
-    //var to store the end position of text (Y-axis)
-    //It should be the same as start position vertically. 
-    var endY = startY;
-
-    //To set the size line which is to be drawn as underline.
-    //Its set as per the size of the text. Feel free to change as per need.
-    var underlineHeight = parseInt(textSize)/15;
-
-    //Because of the above calculation we might get the value less 
-    //than 1 and then the underline will not be rendered. this is to make sure 
-    //there is some value for line width.
-    if(underlineHeight < 1){
-      underlineHeight = 1;
-    }
-
-    ctx.beginPath();
-    if(align == "center"){
-      startX = x - (textWidth/2);
-      endX = x + (textWidth/2);
-    }else if(align == "right"){
-      startX = x-textWidth;
-      endX = x;
-    }else{
-      startX = x;
-      endX = x + textWidth;
-    }
-
-    ctx.strokeStyle = color;
-    ctx.lineWidth = underlineHeight;
-    ctx.moveTo(startX,startY);
-    ctx.lineTo(endX,endY);
-    ctx.stroke();
-  }
-
   //* Draw sectors and prizes texts to canvas */
-  const drawSector = (sectors, sector) => {
+  const drawSector = (sectors, sector, bonus, color) => {
     for (let i = 0; i < sectors.length; i++) {
       const ang = arc * i;
       ctx.save();
       // COLOR
       ctx.beginPath();
-      ctx.fillStyle = sectors[i].color;
+    //  ctx.fillStyle = sectors[i].color;
+      ctx.fillStyle = (isSpinning && i == sector) ? color : sectors[i].color;
       ctx.moveTo(rad, rad);
-      ctx.arc(rad, rad, rad, ang, ang + arc);
+      ctx.arc(rad, rad, rad - 10, ang, ang + arc);
       ctx.lineTo(rad, rad);
       ctx.fill();
+
+      // OUTLINE
+      ctx.strokeStyle = 'black';  // Set outline color to black
+      ctx.lineWidth = 2;          // Adjust this value for the outline thickness
+      ctx.stroke();
+
       // TEXT
       ctx.translate(rad, rad);
-      let rotation = (arc/2) * (1 + 2*i) + Math.PI/2
-      ctx.rotate( rotation );
-
-
-      //ctx.rotate( (ang + arc / 2) + arc );
+      ctx.rotate( (ang + arc / 2) + arc );
       ctx.textAlign = "center";
-      ctx.fillStyle = "#fff";
       if (isSpinning && i == sector) {
-        ctx.font = "bolder 65px sans-serif"
+        ctx.font = "bolder 75px sans-serif"
+        ctx.fillStyle = (bonus > 10) ? 'yellow' : 'white';
         ctx.strokeStyle = 'black';
-        ctx.lineWidth = 3;
-        ctx.strokeText(sectors[i].label, 0, -140);
-        ctx.fillText(sectors[i].label, 0, -140);
+        ctx.lineWidth = 8;
+        ctx.strokeText(`+${bonus}`, 0, -130);
+        ctx.fillText(`+${bonus}`, 0, -130);
       } else {
-        ctx.font = "bold 50px sans-serif"
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 3;
-        ctx.strokeText(sectors[i].label, 0, -140);
+        ctx.font = "bold 45px sans-serif"
+        ctx.fillStyle = sectors[i].font;
         ctx.fillText(sectors[i].label, 0, -140);
       }
-     // ctx.fillText(sector.label, rad - 80, 10);
-     // textUnderline(ctx,sectors[i].label, 0, -135, "#fff", "50px", "center");
+
       // RESTORE
       ctx.restore();
     }
   };
 
-  drawSector(sectors, null);
+  drawSector(sectors, null, null, null);
 
   /* add event listners */
   canvas.addEventListener('mousedown', function(e) {
