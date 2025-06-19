@@ -59,7 +59,9 @@ const getTotalErrors = (data, correctAnswers) => {
     return totalErrors;
 };
 
-const createSpinner = function(canvas, spinnerData, sectors, lose) {
+const createSpinner = function(canvas, spinnerData, sectors_unmixed, lose) {
+
+  let sectors = jsPsych.randomization.repeat(sectors_unmixed, 1);
 
   /* get context */
   const ctx = canvas.getContext("2d"); 
