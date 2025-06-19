@@ -5,6 +5,12 @@ const exp = (function() {
 
     var p = {};
 
+    const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
+
+    jsPsych.data.addProperties({
+        playOrPredict: playOrPredict,
+    });
+
 
    /*
     *
@@ -13,10 +19,10 @@ const exp = (function() {
     */
 
     const html = {
-        intro: [
+        intro_play: [
             `<div class='parent'>
-                <p><strong>Welcome to Spin the Wheel!</strong></p>
-                <p>In Spin the Wheel, you'll spin a series of prize wheels.</p>
+                <p><strong>Welcome to Feel the Spin!</strong></p>
+                <p>In Feel the Spin, you'll spin a series of prize wheels.</p>
                 <p>With each spin, you'll earn points.</p>
                 <p>Your goal is to earn as many points as possible!</p>
             </div>`,
@@ -27,7 +33,7 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>When a wheel stops spinning, the wedge you land on will activate.</p>
+                <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
                 <img src="./img/standard-outcome.png" style="width:50%; height:50%">
             </div>`,
@@ -39,28 +45,73 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>To spin a prize wheel, just grab it with your cursor and give it a spin!</p>
+                <p>To spin a prize wheel, just grab and pull it with your cursor.</p>
                 <p>Watch the animation below to see how it's done.</p>
                 <img src="./img/spin-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>Throughout Spin the Wheel, you'll answer questions about your feelings.</p>
-                <p>Specifically, you'll report how <strong>immersed</strong> and <strong>absorbed</strong> you felt spinning each wheel.</p>
+                <p>Throughout Feel the Spin, you'll answer questions about your feelings.</p>
+                <p>Specifically, you'll report how <b>immersed</b> and <b>absorbed</b> you felt spinning each wheel.</p>
+                <p><b>IMPORTANT:</b> You will <i>not</i> rate how much you liked or enjoyed spinning each wheel. The focus is solely on your sense of immersion and absorption.</p>
+            </div>`,
+        ],
+
+        intro_predict: [
+            `<div class='parent'>
+                <p><strong>Welcome to Feel the Spin!</strong></p>
+                <p>In Feel the Spin, players spin a series of prize wheels.</p>
+                <p>With each spin, players earn points.</p>
+                <p>The goal is to earn as many points as possible!</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>Each wheel is divided into six wedges, like this:</p>
+                <img src="./img/arrow-up.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
+                <p>The activated wedge will turn black, like this:</p>
+                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>The number on the activated wedge is added to the player's total score.</p>
+                <p>In this example, the player would gain 7 points.</p>
+                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>To spin a prize wheel, players just grab and pull it with their cursor.</p>
+                <p>Watch the animation below to see how it's done.</p>
+                <img src="./img/spin-gif.gif" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>Throughout Feel the Spin, players answer questions about their feelings.</p>
+                <p>Specifically, players report how <b>immersed</b> and <b>absorbed</b> they felt spinning each wheel.</p>
+                <p><b>IMPORTANT:</b> Players do <i>not</i> rate how much they liked or enjoyed spinning each wheel. The focus is solely on their sense of immersion and absorption.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>Your goal in Feel the Spin is to guess how <b>immersed</b> and <b>absorbed</b> an average person would feel while spinning different wheels.</p>
+                <p>You'll see a variety of wheels, each with its own set of values. For each wheel, your job is to guess how <b>immersed</b> and <b>absorbed</b> an average person would feel while spinning it.</p>
+                <p>Simply provide your best guess about the typical experience.</p>
             </div>`,   
         ],
 
         postIntro: [   
 
             `<div class='parent'>
-                <p>You're ready to start playing Spin the Wheel!</p>
+                <p>You're ready to begin Feel the Spin!</p>
                 <p>Continue to the next screen to begin.</p>
             </div>`,      
         ],
 
         postTask: [
             `<div class='parent'>
-                <p>Spin the Wheel is now complete!</p>
+                <p>Feel the Spin is now complete!</p>
                 <p>To finish this study, please continue to answer a few final questions.</p>
             </div>`
         ],
@@ -69,13 +120,32 @@ const exp = (function() {
 
     const intro = {
         type: jsPsychInstructions,
-        pages: html.intro,
+        pages: (playOrPredict == "play") ? html.intro_play : html.intro_predict,
         show_clickable_nav: true,
         post_trial_gap: 500,
         allow_keys: false,
     };
 
-    let correctAnswers = [`Earn as many points as possible.`, `I will report how immersed and absorbed I felt spinning each wheel.`];
+    const correctAnswer_play = [`I will report how immersed and absorbed I felt spinning each wheel.`];
+
+    const correctAnswer_predict = [`I will predict how immersed and absorbed an average person would feel spinning each wheel.`];
+
+    const correctAnswer = (playOrPredict == "play") ? correctAnswer_play : correctAnswer_predict;
+
+    const options_play = [
+        `I will report how happy I felt spinning each wheel.`, 
+        `I will report how much I enjoyed spinning each wheel.`,
+        `I will report how immersed and absorbed I felt spinning each wheel.`,
+        `I will report how much I liked spinning each wheel.`
+    ];
+
+    const options_predict = [
+        `I will predict how happy an average person would feel spinning each wheel.`, 
+        `I will predict how much an average person would enjoy spinning each wheel.`,
+        `I will predict how immersed and absorbed an average person would feel spinning each wheel.`,
+        `I will predict how much an average person would like spinning each wheel.`];
+
+    const options = (playOrPredict == "play") ? options_play : options_predict;
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -87,23 +157,18 @@ const exp = (function() {
     const attnChk = {
         type: jsPsychSurveyMultiChoice,
         preamble: `<div class='parent'>
-            <p>Please answer the following questions.</p>
+            <p>Please answer the following question.</p>
             </div>`,
         questions: [
             {
-                prompt: `What is your goal?`, 
-                name: `attnChk1`, 
-                options: [`Spin the wheel as fast as possible.`, `Earn as few points as possible.`, `Earn as many points as possible.`],
-            },
-            {
                 prompt: `Which of the following statements is true?`, 
-                name: `attnChk2`, 
-                options: [`I will report how happy I felt spinning each wheel.`, `I will report how much I enjoyed spinning each wheel.`,`I will report how immersed and absorbed I felt spinning each wheel.`,`I will report how much I liked spinning each wheel.`],
+                name: `attnChk1`, 
+                options: options,
             },
         ],
         scale_width: 500,
         on_finish: (data) => {
-              const totalErrors = getTotalErrors(data, correctAnswers);
+              const totalErrors = getTotalErrors(data, correctAnswer);
               data.totalErrors = totalErrors;
         },
     };
@@ -159,13 +224,13 @@ const exp = (function() {
     let wheels = [
             {sectors: [ wedges.one, wedges.one, wedges.one, wedges.one, wedges.one, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
             {sectors: [ wedges.one, wedges.nine, wedges.one, wedges.nine, wedges.one, wedges.nine ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
-            {sectors: [ wedges.one, wedges.nine, wedges.nine, wedges.nine, wedges.nine, wedges.nine ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
+            {sectors: [ wedges.nine, wedges.nine, wedges.nine, wedges.nine, wedges.nine, wedges.one ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
         ];
 
     wheels = jsPsych.randomization.repeat(wheels, 1);
 
 
-    const MakeSpinLoop = function(wheel, round) {
+    const MakeSpinLoop = function(wheel, round, play) {
 
         let outcome;
         let trial = 1;
@@ -174,7 +239,7 @@ const exp = (function() {
         const spin = {
             type: jsPsychCanvasButtonResponse,
             stimulus: function(c, spinnerData) {
-                createSpinner(c, spinnerData, wheel.sectors, false);
+                createSpinner(c, spinnerData, wheel.sectors, false, true);
             },
             canvas_size: [500, 500],
             scoreBoard: function() {
@@ -212,10 +277,32 @@ const exp = (function() {
 
         const spin_loop = {
             timeline: [spin, tokens],
-            repetitions: 12,
+            repetitions: 1,
         }
 
-        const flowMeasure = {
+
+        const flowMeasure_predict = {
+            type: jsPsychCanvasLikert,
+            stimulus: function(c, spinnerData) {
+                createSpinner(c, spinnerData, wheel.sectors, false, false);
+            },
+            questions: [
+                {prompt: `How <b>immersed</b> and <b>absorbed</b> did you feel spinning the last wheel?`,
+                name: `flow`,
+                labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
+            ],
+            randomize_question_order: false,
+            scale_width: 600,
+            data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
+            on_finish: function(data) {
+                let scoreArray = jsPsych.data.get().select('score').values;
+                data.score = scoreArray[scoreArray.length - 1];
+                saveSurveyData(data);
+            }
+        };
+
+
+        const flowMeasure_play = {
             type: jsPsychSurveyLikert,
             questions: [
                 {prompt: `How <b>immersed</b> and <b>absorbed</b> did you feel spinning the last wheel?`,
@@ -232,13 +319,17 @@ const exp = (function() {
             }
         };
 
-        this.timeline = [spin_loop, flowMeasure];
+        if (play == "play") {
+            this.timeline = [spin_loop, flowMeasure_play];
+        } else {
+            this.timeline = [flowMeasure_predict];
+        }
     }
 
 
-    p.round1 = new MakeSpinLoop(wheels[0], 0)
-    p.round2 = new MakeSpinLoop(wheels[1], 1)
-    p.round3 = new MakeSpinLoop(wheels[2], 2)
+    p.round1 = new MakeSpinLoop(wheels[0], 0, playOrPredict)
+    p.round2 = new MakeSpinLoop(wheels[1], 1, playOrPredict)
+    p.round3 = new MakeSpinLoop(wheels[2], 2, playOrPredict)
 
    /*
     *
@@ -317,7 +408,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "yXEgjnMggiYV",
+        experiment_id: "N329iV0GDfjw",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };

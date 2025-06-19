@@ -59,7 +59,7 @@ const getTotalErrors = (data, correctAnswers) => {
     return totalErrors;
 };
 
-const createSpinner = function(canvas, spinnerData, sectors, lose) {
+const createSpinner = function(canvas, spinnerData, sectors, lose, interactive) {
 
   /* get context */
   const ctx = canvas.getContext("2d"); 
@@ -355,19 +355,21 @@ const createSpinner = function(canvas, spinnerData, sectors, lose) {
 
   drawSector(sectors, null);
 
-  /* add event listners */
-  canvas.addEventListener('mousedown', function(e) {
-      if (onWheel) { onGrab(e.clientX, e.clientY) };
-  });
+  if (interactive) {
+    /* add event listners */
+    canvas.addEventListener('mousedown', function(e) {
+        if (onWheel) { onGrab(e.clientX, e.clientY) };
+    });
 
-  canvas.addEventListener('mousemove', function(e) {
-      let dist = Math.sqrt( (wheelX - e.clientX)**2 + (wheelY - e.clientY)**2 );
-      dist < rad ? onWheel = true : onWheel = false;
-      onWheel && !isGrabbed && !isSpinning ? canvas.style.cursor = "grab" : canvas.style.cursor = "";
-      if(isGrabbed && onWheel) { onMove(e.clientX, e.clientY) };
-  });
+    canvas.addEventListener('mousemove', function(e) {
+        let dist = Math.sqrt( (wheelX - e.clientX)**2 + (wheelY - e.clientY)**2 );
+        dist < rad ? onWheel = true : onWheel = false;
+        onWheel && !isGrabbed && !isSpinning ? canvas.style.cursor = "grab" : canvas.style.cursor = "";
+        if(isGrabbed && onWheel) { onMove(e.clientX, e.clientY) };
+    });
 
-  window.addEventListener('mouseup', onRelease);
+    window.addEventListener('mouseup', onRelease);
+  };
 
   window.addEventListener('resize', function(event) {
     wheelWidth = canvas.getBoundingClientRect()['width'];
