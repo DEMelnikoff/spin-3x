@@ -225,7 +225,7 @@ const exp = (function() {
 
         const spin_loop = {
             timeline: [spin, tokens],
-            repetitions: 10,
+            repetitions: 12,
         }
 
         const flowMeasure = {
