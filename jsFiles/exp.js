@@ -46,7 +46,7 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>Throughout Spin the Wheel, you'll answer questions about your feelings.</p>
-                <p>Specifically, you'll report how <strong>immersed/strong> and <strong>absorbed</strong> you felt spinning each wheel.</p>
+                <p>Specifically, you'll report how <strong>immersed</strong> and <strong>absorbed</strong> you felt spinning each wheel.</p>
             </div>`,   
         ],
 
@@ -98,11 +98,7 @@ const exp = (function() {
             {
                 prompt: `Which of the following statements is true?`, 
                 name: `attnChk2`, 
-                options: [
-                    '"I will report how <strong>happy</strong> I felt spinning each wheel."', 
-                    '"I will report how much I <strong>enjoyed</strong> spinning each wheel."',
-                    '"I will report how <strong>immersed</strong> and <strong>absorbed</strong> I felt spinning each wheel."',
-                    '"I will report how much I <strong>liked</strong> spinning each wheel."'],
+                options: [`"I will report how <strong>happy</strong> I felt spinning each wheel."`, `"I will report how much I <strong>enjoyed</strong> spinning each wheel."`,`"I will report how <strong>immersed</strong> and <strong>absorbed</strong> I felt spinning each wheel."`,`"I will report how much I <strong>liked</strong> spinning each wheel."`],
             },
         ],
         scale_width: 500,
