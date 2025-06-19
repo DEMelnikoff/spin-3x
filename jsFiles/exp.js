@@ -36,9 +36,8 @@ const exp = (function() {
                 <p>The number on the activated wedge is added to your total score.</p>
                 <p>In this example, you'd gain 7 points.</p>
                 <img src="./img/standard-outcome.png" style="width:50%; height:50%">
-            </div>`],
+            </div>`,
 
-        postIntro: [
             `<div class='parent'>
                 <p>To spin a prize wheel, just grab it with your cursor and give it a spin!</p>
                 <p>Watch the animation below to see how it's done.</p>
@@ -47,8 +46,11 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>Throughout Spin the Wheel, you'll answer questions about your feelings.</p>
-                <p>Specifically, you'll report how <strong>immersed and absorbed</strong> you feel while spinning each wheel.</p>
-            </div>`,      
+                <p>Specifically, you'll report how <strong>immersed/strong> and <strong>absorbed</strong> you felt spinning each wheel.</p>
+            </div>`,   
+        ],
+
+        postIntro: [   
 
             `<div class='parent'>
                 <p>You're ready to start playing Spin the Wheel!</p>
@@ -73,7 +75,7 @@ const exp = (function() {
         allow_keys: false,
     };
 
-    let correctAnswers = [`9`, `7`, `3`, `1`, `Earn as many points as possible.`];
+    let correctAnswers = [`Earn as many points as possible.`, `"I will report how <strong>immersed</strong> and <strong>absorbed</strong> I felt spinning each wheel."`];
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -89,29 +91,18 @@ const exp = (function() {
             </div>`,
         questions: [
             {
-                prompt: `If you land on a 9, how many points will you earn?`, 
-                name: `attnChk1`, 
-                options: ['9', '7', '3', '1'],
-            },
-            {
-                prompt: `If you land on a 7, how many points will you earn?`, 
-                name: `attnChk2`, 
-                options: ['9', '7', '3', '1'],
-            },
-            {
-                prompt: `If you land on a 3, how many points will you earn?`, 
-                name: `attnCh3`, 
-                options: ['9', '7', '3', '1'],
-            },
-            {
-                prompt: `If you land on a 1, how many points will you earn?`, 
-                name: `attnCh4`, 
-                options: ['9', '7', '3', '1'],
-            },
-            {
                 prompt: `What is your goal?`, 
-                name: `attnChk5`, 
+                name: `attnChk1`, 
                 options: [`Spin the wheel as fast as possible.`, `Earn as few points as possible.`, `Earn as many points as possible.`],
+            },
+            {
+                prompt: `Which of the following statements is true?`, 
+                name: `attnChk2`, 
+                options: [
+                    '"I will report how <strong>happy</strong> I felt spinning each wheel."', 
+                    '"I will report how much I <strong>enjoyed</strong> spinning each wheel."',
+                    '"I will report how <strong>immersed</strong> and <strong>absorbed</strong> I felt spinning each wheel."',
+                    '"I will report how much I <strong>liked</strong> spinning each wheel."'],
             },
         ],
         scale_width: 500,
