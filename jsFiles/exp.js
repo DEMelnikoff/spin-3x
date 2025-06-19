@@ -277,7 +277,7 @@ const exp = (function() {
 
         const spin_loop = {
             timeline: [spin, tokens],
-            repetitions: 1,
+            repetitions: 12,
         }
 
 
@@ -314,7 +314,7 @@ const exp = (function() {
             scale_width: 600,
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
             on_finish: function(data) {
-                data.trial = trial;
+                data.trial = trial - 1;
                 let scoreArray = jsPsych.data.get().select('score').values;
                 data.score = scoreArray[scoreArray.length - 1];
                 saveSurveyData(data);
