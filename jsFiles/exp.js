@@ -287,7 +287,7 @@ const exp = (function() {
                 createSpinner(c, spinnerData, wheel.sectors, false, false);
             },
             questions: [
-                {prompt: `How <b>immersed</b> and <b>absorbed</b> did you feel spinning the last wheel?`,
+                {prompt: `How <b>immersed</b> and <b>absorbed</b> would an average person feel spinning this wheel?`,
                 name: `flow`,
                 labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
             ],
@@ -295,6 +295,7 @@ const exp = (function() {
             scale_width: 600,
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
             on_finish: function(data) {
+                data.trial = trial;
                 let scoreArray = jsPsych.data.get().select('score').values;
                 data.score = scoreArray[scoreArray.length - 1];
                 saveSurveyData(data);
@@ -313,6 +314,7 @@ const exp = (function() {
             scale_width: 600,
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
             on_finish: function(data) {
+                data.trial = trial;
                 let scoreArray = jsPsych.data.get().select('score').values;
                 data.score = scoreArray[scoreArray.length - 1];
                 saveSurveyData(data);
