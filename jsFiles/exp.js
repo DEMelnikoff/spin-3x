@@ -75,7 +75,7 @@ const exp = (function() {
         allow_keys: false,
     };
 
-    let correctAnswers = [`Earn as many points as possible.`, `"I will report how <strong>immersed</strong> and <strong>absorbed</strong> I felt spinning each wheel."`];
+    let correctAnswers = [`Earn as many points as possible.`, `I will report how immersed and absorbed I felt spinning each wheel.`];
 
     const errorMessage = {
         type: jsPsychInstructions,
@@ -98,7 +98,7 @@ const exp = (function() {
             {
                 prompt: `Which of the following statements is true?`, 
                 name: `attnChk2`, 
-                options: [`"I will report how <strong>happy</strong> I felt spinning each wheel."`, `"I will report how much I <strong>enjoyed</strong> spinning each wheel."`,`"I will report how <strong>immersed</strong> and <strong>absorbed</strong> I felt spinning each wheel."`,`"I will report how much I <strong>liked</strong> spinning each wheel."`],
+                options: [`I will report how happy I felt spinning each wheel.`, `I will report how much I enjoyed spinning each wheel.`,`I will report how immersed and absorbed I felt spinning each wheel.`,`I will report how much I liked spinning each wheel.`],
             },
         ],
         scale_width: 500,
