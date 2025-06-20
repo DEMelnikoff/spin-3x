@@ -281,57 +281,40 @@ const exp = (function() {
         }
 
         const flowMeasure_predict = {
-            type: jsPsychCanvasSliderResponse,
-            question: `<div style="width:500px;">
-                <p>How <b>immersed</b> and <b>absorbed</b><br>would an average person feel spinning this wheel?</p>
-                </div>`,
+            type: jsPsychCanvasLikert,
             stimulus: function(c, spinnerData) {
                 createSpinner(c, spinnerData, wheel.sectors, false, false);
             },
-            require_movement: true,
-            slider_start: 0,
-            labels: ['A little', 'Moderately', 'Extremely'],
-            data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
-            on_finish: function(data) {
-                data.trial = trial - 1;
-                data.flow = data.response;
-            }
-        };
-
-/*
-        const flowMeasure_play = {
-            type: jsPsychSurveyLikert,
             questions: [
-                {prompt: `How <b>immersed</b> and <b>absorbed</b> did you feel spinning the last wheel?`,
+                {prompt: `How <b>immersed</b> and <b>absorbed</b><br>would an average person feel spinning this wheel?`,
                 name: `flow`,
                 labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
             ],
             randomize_question_order: false,
             scale_width: 600,
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
-            on_finish: function(data) {
+             on_finish: function(data) {
                 data.trial = trial - 1;
-                let scoreArray = jsPsych.data.get().select('score').values;
-                data.score = scoreArray[scoreArray.length - 1];
                 saveSurveyData(data);
             }
         };
-*/
 
         const flowMeasure_play = {
-            type: jsPsychHtmlSliderResponse,
-            stimulus: `<div style="width:500px;">
-                <p>How <b>immersed</b> and <b>absorbed</b><br>did you feel spinning the last wheel?</p>
-                </div>`,
-            require_movement: true,
-            slider_start: 0,
-            labels: ['A little', 'Moderately', 'Extremely'],
+            type: jsPsychSurveyLikert,
+            questions: [
+                {prompt: `How <b>immersed</b> and <b>absorbed</b><br>did you feel spinning the last wheel?`,
+                name: `flow`,
+                labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
+            ],
+            randomize_question_order: false,
+            scale_width: 600,
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
              on_finish: function(data) {
                 data.trial = trial - 1;
-                data.flow = data.response;
+                saveSurveyData(data);
             }
         };
+
 
         if (play == "play") {
             this.timeline = [spin_loop, flowMeasure_play];
