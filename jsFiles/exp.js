@@ -9,8 +9,19 @@ const exp = (function() {
 
     const nTrials = 12;
 
+    const colorCondition = Math.floor(Math.random() * 2);
+
+    const colors = [["#0077CC", "#FF6B2D"], ["#FF6B2D", "#0077CC"]][colorCondition];
+
+    const gif = ["spin-gif-0", "spin-gif-1"][colorCondition];
+
+    const pic1 = ["arrow-up-0", "arrow-up-1"][colorCondition];
+
+    const pic2 = ["standard-outcome-0", "standard-outcome-1"][colorCondition];
+
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
+        colorCondition: colorCondition,
     });
 
 
@@ -31,48 +42,35 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>Each wheel is divided into six wedges, like this:</p>
-                <img src="./img/arrow-up.png" style="width:50%; height:50%">
+                <img src="./img/${pic1}.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>'W' wedges are worth 10 points.</p><p>'L' wedges are worth 0 points.</p>
+                <img src="./img/${pic1}.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
-                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
-            </div>`,
-
-            `<div class='parent'>
-                <p>The number on the activated wedge is added to your total score.</p>
-                <p>In this example, you'd gain 7 points.</p>
-                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
+                <img src="./img/${pic2}.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>After each spin, you'll see how many points you earned.</p>
-                <p>For example, if you earn 7 points, you'll see a message like this:</p>
-                <div class="win-text-inst" style="color:#06D6A0; margin-bottom: 100px">+7 Points</div>
+                <p>If you land on a 'W' wedge, you'll see this message:</p>
+                <div class="win-text-inst" style="color:${colors[1]}; margin-bottom: 100px">+10 Points</div>
             </div>`,
 
             `<div class='parent'>
-                <p>In addition to earning points based on your spins, you can gain or lose points randomly:</p>
-                <p>After each spin, you have a 25% chance of 2-point bonus and a 25% chance of a 2-point loss.</p>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you get a 2-point bonus, you'll see a message like this:</p>
-                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
-                <div class="bonus-text-inst" style="margin-bottom: 100px">+2 Bonus</div>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you get a 2-point loss, you'll see a message like this:</p>
-                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
-                <div class="loss-text-inst" style="margin-bottom: 100px">-2 Loss</div>
+                <p>If you land on a 'L' wedge, you'll see this message:</p>
+                <div class="win-text-inst" style="color:${colors[0]}; margin-bottom: 100px">+0 Points</div>
             </div>`,
 
             `<div class='parent'>
                 <p>To spin a prize wheel, just grab and pull it with your cursor.</p>
                 <p>Watch the animation below to see how it's done.</p>
-                <img src="./img/spin-gif.gif" style="width:50%; height:50%">
+                <img src="./img/${gif}.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -92,48 +90,35 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>Each wheel is divided into six wedges, like this:</p>
-                <img src="./img/arrow-up.png" style="width:50%; height:50%">
+                <img src="./img/${pic1}.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>'W' wedges are worth 10 points.</p><p>'L' wedges are worth 0 points.</p>
+                <img src="./img/${pic1}.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
-                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
-            </div>`,
-
-            `<div class='parent'>
-                <p>The number on the activated wedge is added to the player's total score.</p>
-                <p>In this example, the player would gain 7 points.</p>
-                <img src="./img/standard-outcome.png" style="width:50%; height:50%">
+                <img src="./img/${pic2}.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>After each spin, players see how many points they earned.</p>
-                <p>For example, if a player earns 7 points, they'll see a message like this:</p>
-                <div class="win-text-inst" style="color:#06D6A0; margin-bottom: 100px">+7 Points</div>
+                <p>If a player lands on a 'W' wedge, they'll see this message:</p>
+                <div class="win-text-inst" style="color:${colors[1]}; margin-bottom: 100px">+10 Points</div>
             </div>`,
 
             `<div class='parent'>
-                <p>In addition to earning points based on spins, players can gain or lose points randomly:</p>
-                <p>After each spin, players have a 25% chance of 2-point bonus and a 25% chance of a 2-point loss.</p>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If a player gets a 2-point bonus, they'll see a message like this:</p>
-                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
-                <div class="bonus-text-inst" style="margin-bottom: 100px">+2 Bonus</div>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If a player gets a 2-point loss, they'll see a message like this:</p>
-                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
-                <div class="loss-text-inst" style="margin-bottom: 100px">-2 Loss</div>
+                <p>If a player lands on a 'L' wedge, they'll see this message:</p>
+                <div class="win-text-inst" style="color:${colors[0]}; margin-bottom: 100px">+0 Points</div>
             </div>`,
 
             `<div class='parent'>
                 <p>To spin a prize wheel, players just grab and pull it with their cursor.</p>
                 <p>Watch the animation below to see how it's done.</p>
-                <img src="./img/spin-gif.gif" style="width:50%; height:50%">
+                <img src="./img/${gif}.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -258,14 +243,11 @@ const exp = (function() {
     *
     */
 
-    let colors = ["#0077CC", "#FF6B2D"];
-
-    colors = jsPsych.randomization.repeat(colors, 1);
 
     // define each wedge
     const wedges = {
-        one: {color: colors[0], font: 'white', label:"1", points: 1},
-        nine: {color: colors[1], font: 'white', label:"9", points: 9},
+        one: {color: colors[0], font: 'white', label:"L", points: 0},
+        nine: {color: colors[1], font: 'white', label:"W", points: 10},
     };
 
     // define each wheel
@@ -282,8 +264,6 @@ const exp = (function() {
 
         let outcome;
         let trial = 1;
-        let randomFeedbackArray = Array(3).fill("bonus").concat(Array(3).fill("minus")).concat(Array(6).fill(null));
-        randomFeedbackArray = jsPsych.randomization.repeat(randomFeedbackArray, 1);
 
         // trial: spinner
         const spin = {
@@ -306,20 +286,11 @@ const exp = (function() {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
                 let standardFeedback;
-                let randomFeedback = randomFeedbackArray.pop();
 
-                if (outcome == "9") {
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[1]}">+9 Points</div>`;
+                if (outcome == "W") {
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[1]}">+10 Points</div>`;
                 } else {
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[0]}">+1 Point</div>`;
-                };
-
-                if (randomFeedback == "bonus") {
-                    standardFeedback += `<div class="bonus-text">+2 Bonus</div> </div>`
-                } else if (randomFeedback == "minus") {
-                    standardFeedback += `<div class="loss-text">-2 Loss</div> </div>`
-                } else {
-                    standardFeedback += `</div>`
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[0]}">+0 Points</div>`;
                 };
 
                 return standardFeedback;
@@ -464,7 +435,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "AR5bJPzW9D0P",
+        experiment_id: "Pntqxv5tvneG",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
