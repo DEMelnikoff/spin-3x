@@ -7,6 +7,8 @@ const exp = (function() {
 
     const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
 
+    const nTrials = 12;
+
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
     });
@@ -45,6 +47,29 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
+                <p>After each spin, you'll see how many points you earned.</p>
+                <p>For example, if you earn 7 points, you'll see a message like this:</p>
+                <div class="win-text-inst" style="color:#06D6A0; margin-bottom: 100px">+7 Points</div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>In addition to earning points based on your spins, you can gain or lose points randomly:</p>
+                <p>After each spin, you have a 25% chance of 2-point bonus and a 25% chance of a 2-point loss.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you get a 2-point bonus, you'll see a message like this:</p>
+                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
+                <div class="bonus-text-inst" style="margin-bottom: 100px">+2 Bonus</div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If you get a 2-point loss, you'll see a message like this:</p>
+                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
+                <div class="loss-text-inst" style="margin-bottom: 100px">-2 Loss</div>
+            </div>`,
+
+            `<div class='parent'>
                 <p>To spin a prize wheel, just grab and pull it with your cursor.</p>
                 <p>Watch the animation below to see how it's done.</p>
                 <img src="./img/spin-gif.gif" style="width:50%; height:50%">
@@ -80,6 +105,29 @@ const exp = (function() {
                 <p>The number on the activated wedge is added to the player's total score.</p>
                 <p>In this example, the player would gain 7 points.</p>
                 <img src="./img/standard-outcome.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>After each spin, players see how many points they earned.</p>
+                <p>For example, if a player earns 7 points, they'll see a message like this:</p>
+                <div class="win-text-inst" style="color:#06D6A0; margin-bottom: 100px">+7 Points</div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>In addition to earning points based on spins, players can gain or lose points randomly:</p>
+                <p>After each spin, players have a 25% chance of 2-point bonus and a 25% chance of a 2-point loss.</p>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If a player gets a 2-point bonus, they'll see a message like this:</p>
+                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
+                <div class="bonus-text-inst" style="margin-bottom: 100px">+2 Bonus</div>
+            </div>`,
+
+            `<div class='parent'>
+                <p>If a player gets a 2-point loss, they'll see a message like this:</p>
+                <div class="win-text-inst" style="color:#06D6A0">+7 Points</div>
+                <div class="loss-text-inst" style="margin-bottom: 100px">-2 Loss</div>
             </div>`,
 
             `<div class='parent'>
@@ -234,6 +282,8 @@ const exp = (function() {
 
         let outcome;
         let trial = 1;
+        let randomFeedbackArray = Array(3).fill("bonus").concat(Array(3).fill("minus")).concat(Array(6).fill(null));
+        randomFeedbackArray = jsPsych.randomization.repeat(randomFeedbackArray, 1);
 
         // trial: spinner
         const spin = {
@@ -256,12 +306,21 @@ const exp = (function() {
             type: jsPsychHtmlKeyboardResponse,
             stimulus: function() {
                 let standardFeedback;
+                let randomFeedback = randomFeedbackArray.pop();
 
                 if (outcome == "9") {
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[1]}">+9 Points</div> </div>`;
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[1]}">+9 Points</div>`;
                 } else {
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[0]}">+1 Point</div> </div>`;
-                }
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[0]}">+1 Point</div>`;
+                };
+
+                if (randomFeedback == "bonus") {
+                    standardFeedback += `<div class="bonus-text">+2 Bonus</div> </div>`
+                } else if (randomFeedback == "minus") {
+                    standardFeedback += `<div class="loss-text">-2 Loss</div> </div>`
+                } else {
+                    standardFeedback += `</div>`
+                };
 
                 return standardFeedback;
 
@@ -277,7 +336,7 @@ const exp = (function() {
 
         const spin_loop = {
             timeline: [spin, tokens],
-            repetitions: 12,
+            repetitions: nTrials,
         }
 
         const flowMeasure_predict = {
@@ -405,7 +464,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "4WaMX3G7QX2m",
+        experiment_id: "AR5bJPzW9D0P",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
