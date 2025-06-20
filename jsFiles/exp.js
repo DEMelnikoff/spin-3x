@@ -277,7 +277,7 @@ const exp = (function() {
 
         const spin_loop = {
             timeline: [spin, tokens],
-            repetitions: 12,
+            repetitions: 1,
         }
 
 
