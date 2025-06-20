@@ -277,7 +277,7 @@ const exp = (function() {
 
         const spin_loop = {
             timeline: [spin, tokens],
-            repetitions: 1,
+            repetitions: 12,
         }
 
 
@@ -332,7 +332,6 @@ const exp = (function() {
             labels: ['A little', 'Moderately', 'Extremely'],
              on_finish: function(data) {
                 data.trial = trial - 1;
-                console.log(data.response);
                 data.flow = data.response;
             }
         };
