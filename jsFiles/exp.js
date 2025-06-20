@@ -5,7 +5,7 @@ const exp = (function() {
 
     var p = {};
 
-    const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
+    const playOrPredict = ["play", "predict"][0]; 
 
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
@@ -302,6 +302,7 @@ const exp = (function() {
             }
         };
 
+/*
 
         const flowMeasure_play = {
             type: jsPsychSurveyLikert,
@@ -314,6 +315,22 @@ const exp = (function() {
             scale_width: 600,
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
             on_finish: function(data) {
+                data.trial = trial - 1;
+                let scoreArray = jsPsych.data.get().select('score').values;
+                data.score = scoreArray[scoreArray.length - 1];
+                saveSurveyData(data);
+            }
+        };
+*/
+        const flowMeasure_play = {
+            type: jsPsychHtmlSliderResponse,
+            stimulus: `<div style="width:500px;">
+                <p>How <b>immersed</b> and <b>absorbed</b><br>did you feel spinning the last wheel?</p>
+                </div>`,
+            require_movement: true,
+            slider_start: 0,
+            labels: ['A little', 'Moderately', 'Extremely'],
+             on_finish: function(data) {
                 data.trial = trial - 1;
                 let scoreArray = jsPsych.data.get().select('score').values;
                 data.score = scoreArray[scoreArray.length - 1];
