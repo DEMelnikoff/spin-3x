@@ -5,7 +5,7 @@ const exp = (function() {
 
     var p = {};
 
-    const playOrPredict = ["play", "predict"][0]; 
+    const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
 
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
@@ -268,7 +268,7 @@ const exp = (function() {
             },
             choices: "NO_KEYS",
             trial_duration: 2000,
-            data: {round: round + 1},
+            data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
             on_finish: function(data) {
                 data.trial = trial;
                 trial++;
@@ -280,30 +280,25 @@ const exp = (function() {
             repetitions: 12,
         }
 
-
         const flowMeasure_predict = {
-            type: jsPsychCanvasLikert,
+            type: jsPsychCanvasSliderResponse,
+            question: `<div style="width:500px;">
+                <p>How <b>immersed</b> and <b>absorbed</b><br>would an average person feel spinning this wheel?</p>
+                </div>`,
             stimulus: function(c, spinnerData) {
                 createSpinner(c, spinnerData, wheel.sectors, false, false);
             },
-            questions: [
-                {prompt: `How <b>immersed</b> and <b>absorbed</b> would an average person feel spinning this wheel?`,
-                name: `flow`,
-                labels: ['0<br>A little', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10<br>Extremely']},
-            ],
-            randomize_question_order: false,
-            scale_width: 600,
+            require_movement: true,
+            slider_start: 0,
+            labels: ['A little', 'Moderately', 'Extremely'],
             data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
             on_finish: function(data) {
-                data.trial = trial;
-                let scoreArray = jsPsych.data.get().select('score').values;
-                data.score = scoreArray[scoreArray.length - 1];
-                saveSurveyData(data);
+                data.trial = trial - 1;
+                data.flow = data.response;
             }
         };
 
 /*
-
         const flowMeasure_play = {
             type: jsPsychSurveyLikert,
             questions: [
@@ -322,6 +317,7 @@ const exp = (function() {
             }
         };
 */
+
         const flowMeasure_play = {
             type: jsPsychHtmlSliderResponse,
             stimulus: `<div style="width:500px;">
@@ -330,6 +326,7 @@ const exp = (function() {
             require_movement: true,
             slider_start: 0,
             labels: ['A little', 'Moderately', 'Extremely'],
+            data: {round: round + 1, wheel_id: wheel.wheel_id, ev: wheel.ev, reliability: wheel.reliability, mi: wheel.mi},
              on_finish: function(data) {
                 data.trial = trial - 1;
                 data.flow = data.response;
