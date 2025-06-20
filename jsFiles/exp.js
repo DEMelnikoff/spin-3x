@@ -332,9 +332,8 @@ const exp = (function() {
             labels: ['A little', 'Moderately', 'Extremely'],
              on_finish: function(data) {
                 data.trial = trial - 1;
-                let scoreArray = jsPsych.data.get().select('score').values;
-                data.score = scoreArray[scoreArray.length - 1];
-                saveSurveyData(data);
+                console.log(data.response);
+                data.flow = data.response;
             }
         };
 
