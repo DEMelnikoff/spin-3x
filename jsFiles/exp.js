@@ -5,7 +5,9 @@ const exp = (function() {
 
     var p = {};
 
-    const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
+    // const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
+
+    const playOrPredict = ["play", "predict"][0]; 
 
     const nTrials = 12;
 
@@ -41,7 +43,7 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel is divided into six wedges, like this:</p>
+                <p>Each wheel is divided into four wedges, like this:</p>
                 <img src="./img/${pic1}.png" style="width:50%; height:50%">
             </div>`,
 
@@ -89,7 +91,7 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel is divided into six wedges, like this:</p>
+                <p>Each wheel is divided into four wedges, like this:</p>
                 <img src="./img/${pic1}.png" style="width:50%; height:50%">
             </div>`,
 
@@ -252,9 +254,9 @@ const exp = (function() {
 
     // define each wheel
     let wheels = [
-            {sectors: [ wedges.one, wedges.one, wedges.one, wedges.one, wedges.one, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
-            {sectors: [ wedges.one, wedges.nine, wedges.one, wedges.nine, wedges.one, wedges.nine ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
-            {sectors: [ wedges.nine, wedges.nine, wedges.nine, wedges.nine, wedges.nine, wedges.one ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
+            {sectors: [ wedges.one, wedges.one, wedges.one, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+            {sectors: [ wedges.one, wedges.nine, wedges.one, wedges.nine ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
+            {sectors: [ wedges.nine, wedges.nine, wedges.nine, wedges.one ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
         ];
 
     wheels = jsPsych.randomization.repeat(wheels, 1);
@@ -435,7 +437,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "Pntqxv5tvneG",
+        experiment_id: "Ebegjnjbw6m5",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
