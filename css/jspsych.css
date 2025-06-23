@@ -590,6 +590,17 @@
     width: 850px;
 }
 
+.wheel-parent {
+  display: flex;          
+  gap: 1rem;           
+  justify-content: center;
+}
+
+.wheel-parent img {
+  width: 30%;         
+  height: auto;         
+}
+
 #jspsych-canvas-button-response-stimulus {
   display: inline-flex;
   position: relative;

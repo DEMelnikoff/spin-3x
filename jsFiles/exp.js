@@ -15,11 +15,15 @@ const exp = (function() {
 
     const colors = [["#0077CC", "#FF6B2D"], ["#FF6B2D", "#0077CC"]][colorCondition];
 
-    const gif = ["spin-gif-0", "spin-gif-1"][colorCondition];
+    const gif = ["spin-gif_orange", "spin-gif_blue"][colorCondition];
 
-    const pic1 = ["arrow-up-0", "arrow-up-1"][colorCondition];
+    const pic_2win = ["2win_orange", "2win_blue"][colorCondition];
 
-    const pic2 = ["standard-outcome-0", "standard-outcome-1"][colorCondition];
+    const pic_3win = ["3win_orange", "3win_blue"][colorCondition];
+
+    const pic_4win = ["4win_orange", "4win_blue"][colorCondition];
+
+    const pic_won = ["won_orange", "won_blue"][colorCondition];
 
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
@@ -43,19 +47,27 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel is divided into four wedges, like this:</p>
-                <img src="./img/${pic1}.png" style="width:50%; height:50%">
+                <p>You'll spin the following wheels 12 times each:</p>
+                <div class='wheel-parent'>
+                    <img src="./img/${pic_2win}.png">
+                    <img src="./img/${pic_3win}.png">
+                    <img src="./img/${pic_4win}.png">
+                </div>
             </div>`,
 
             `<div class='parent'>
                 <p>'W' wedges are worth 10 points.</p><p>'L' wedges are worth 0 points.</p>
-                <img src="./img/${pic1}.png" style="width:50%; height:50%">
+                <div class='wheel-parent'>
+                    <img src="./img/${pic_2win}.png">
+                    <img src="./img/${pic_3win}.png">
+                    <img src="./img/${pic_4win}.png">
+                </div>            
             </div>`,
 
             `<div class='parent'>
                 <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
-                <img src="./img/${pic2}.png" style="width:50%; height:50%">
+                <img src="./img/${pic_won}.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -92,18 +104,26 @@ const exp = (function() {
 
             `<div class='parent'>
                 <p>Each wheel is divided into four wedges, like this:</p>
-                <img src="./img/${pic1}.png" style="width:50%; height:50%">
+                <div class='wheel-parent'>
+                    <img src="./img/${pic_2win}.png">
+                    <img src="./img/${pic_3win}.png">
+                    <img src="./img/${pic_4win}.png">
+                </div>       
             </div>`,
 
             `<div class='parent'>
                 <p>'W' wedges are worth 10 points.</p><p>'L' wedges are worth 0 points.</p>
-                <img src="./img/${pic1}.png" style="width:50%; height:50%">
+                <div class='wheel-parent'>
+                    <img src="./img/${pic_2win}.png">
+                    <img src="./img/${pic_3win}.png">
+                    <img src="./img/${pic_4win}.png">
+                </div>       
             </div>`,
 
             `<div class='parent'>
                 <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
-                <img src="./img/${pic2}.png" style="width:50%; height:50%">
+                <img src="./img/${pic_won}.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -248,15 +268,15 @@ const exp = (function() {
 
     // define each wedge
     const wedges = {
-        one: {color: colors[0], font: 'white', label:"L", points: 0},
-        nine: {color: colors[1], font: 'white', label:"W", points: 10},
+        lose: {color: colors[0], font: 'white', label:"L", points: 0},
+        win: {color: colors[1], font: 'white', label:"W", points: 10},
     };
 
     // define each wheel
     let wheels = [
-            {sectors: [ wedges.one, wedges.one, wedges.one, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
-            {sectors: [ wedges.one, wedges.nine, wedges.one, wedges.nine ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
-            {sectors: [ wedges.nine, wedges.nine, wedges.nine, wedges.one ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
+            {sectors: [ wedges.lose, wedges.lose, wedges.win, wedges.lose, wedges.lose, wedges.win ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+            {sectors: [ wedges.lose, wedges.win, wedges.lose, wedges.win, wedges.lose, wedges.win ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
+            {sectors: [ wedges.win, wedges.win, wedges.lose, wedges.win, wedges.win, wedges.lose ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
         ];
 
     wheels = jsPsych.randomization.repeat(wheels, 1);
@@ -437,7 +457,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "Ebegjnjbw6m5",
+        experiment_id: "CAAX3No74jY1",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
