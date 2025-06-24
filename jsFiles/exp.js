@@ -231,24 +231,34 @@ const exp = (function() {
     *
     */
 
+    let vibrantColors = [
+      "#D32F2F", // Vivid Red
+      "#FBC02D", // Bright Yellow
+      "#43A047", // Medium Bright Green
+      "#1976D2", // Vivid Blue
+      "#7B1FA2", // Vivid Purple
+      "#F57C00", // Bright Orange
+      "#00838F", // Deep Cyan
+      "#E91E63"  // Bright Magenta
+    ];
+
+    vibrantColors = jsPsych.randomization.repeat(vibrantColors, 1);
 
     // define each wedge
     const wedges = {
-        four: {color: "green", font: 'white', label:"4", points: 4},
-        nine: {color: "purple", font: 'white', label:"9", points: 9},
-        ten: {color: colors[0], font: 'white', label:"10", points: 10},
-        fifteen: {color: colors[1], font: 'white', label:"15", points: 15},
+        lose: {color: null, font: 'white', label:"4", points: 4},
+        win: {color: null, font: 'white', label:"9", points: 9},
     };
 
     let baseline_wheels = [
-        {sectors: [ wedges.four, wedges.four, wedges.nine, wedges.four, wedges.four, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+        {sectors: [ wedges.lose, wedges.lose, wedges.win, wedges.lose, wedges.lose, wedges.win ], wheel_id: 0, reliability: 1, label: "100%", ev: 2.33, mi: .65},
     ];
 
     // define each wheel
     let target_wheels = [
-        {sectors: [ wedges.ten, wedges.ten, wedges.ten, wedges.ten, wedges.ten, wedges.fifteen ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
-        {sectors: [ wedges.ten, wedges.fifteen, wedges.ten, wedges.fifteen, wedges.ten, wedges.fifteen ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
-        {sectors: [ wedges.fifteen, wedges.fifteen, wedges.fifteen, wedges.fifteen, wedges.fifteen, wedges.ten ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
+        {sectors: [ wedges.lose, wedges.lose, wedges.lose, wedges.lose, wedges.lose, wedges.win ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+        {sectors: [ wedges.lose, wedges.win, wedges.lose, wedges.win, wedges.lose, wedges.win ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
+        {sectors: [ wedges.win, wedges.win, wedges.win, wedges.win, wedges.win, wedges.lose ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
     ];
 
     target_wheels = jsPsych.randomization.repeat(target_wheels, 1);
@@ -263,6 +273,16 @@ const exp = (function() {
         const spin = {
             type: jsPsychCanvasButtonResponse,
             stimulus: function(c, spinnerData) {
+                if (trial == 1) {
+                    wedges.win.color = vibrantColors.pop()
+                    wedges.lose.color = vibrantColors.pop()
+                }
+                if (round > 0 & trial == 1) {
+                    wedges.lose.label = "10";
+                    wedges.lose.points = 10;
+                    wedges.win.label = "15";
+                    wedges.win.points = 15;
+                };
                 createSpinner(c, spinnerData, wheel.sectors, false, true);
             },
             canvas_size: [500, 500],
@@ -282,11 +302,9 @@ const exp = (function() {
                 let standardFeedback;
 
                 if (outcome == "9" || outcome == "15") {
-                    let feedbackColor = (outcome == "9") ? "purple" : colors[1];
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${feedbackColor}">+${outcome} Points</div>`;
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${wedges.win.color}">+${outcome} Points</div>`;
                 } else {
-                    let feedbackColor = (outcome == "4") ? "green" : colors[0];
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${feedbackColor}">+${outcome} Points</div>`;
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${wedges.lose.color}">+${outcome} Points</div>`;
                 };
 
                 return standardFeedback;
@@ -352,6 +370,8 @@ const exp = (function() {
 
     p.round1 = new MakeSpinLoop(baseline_wheels[0], 0, playOrPredict)
     p.round2 = new MakeSpinLoop(target_wheels[0], 1, playOrPredict)
+    p.round3 = new MakeSpinLoop(target_wheels[1], 2, playOrPredict)
+    p.round4 = new MakeSpinLoop(target_wheels[2], 3, playOrPredict)
 
    /*
     *
@@ -439,6 +459,6 @@ const exp = (function() {
 
 }());
 
-const timeline = [exp.consent, exp.instLoop, exp.postIntro, exp.round1, exp.round2, exp.demographics, exp.save_data];
+const timeline = [exp.consent, exp.instLoop, exp.postIntro, exp.round1, exp.round2, exp.round3, exp.round4, exp.demographics, exp.save_data];
 
 jsPsych.run(timeline);
