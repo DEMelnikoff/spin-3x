@@ -322,6 +322,16 @@ const exp = (function() {
         const flowMeasure_predict = {
             type: jsPsychCanvasLikert,
             stimulus: function(c, spinnerData) {
+                if (trial == 1) {
+                    wedges.win.color = vibrantColors.pop()
+                    wedges.lose.color = vibrantColors.pop()
+                }
+                if (round > 0 & trial == 1) {
+                    wedges.lose.label = "10";
+                    wedges.lose.points = 10;
+                    wedges.win.label = "15";
+                    wedges.win.points = 15;
+                };
                 createSpinner(c, spinnerData, wheel.sectors, false, false);
             },
             questions: [
