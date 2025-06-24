@@ -15,16 +15,6 @@ const exp = (function() {
 
     const colors = [["#0077CC", "#FF6B2D"], ["#FF6B2D", "#0077CC"]][colorCondition];
 
-    const gif = ["spin-gif_orange", "spin-gif_blue"][colorCondition];
-
-    const pic_2win = ["2win_orange", "2win_blue"][colorCondition];
-
-    const pic_3win = ["3win_orange", "3win_blue"][colorCondition];
-
-    const pic_4win = ["4win_orange", "4win_blue"][colorCondition];
-
-    const pic_won = ["won_orange", "won_blue"][colorCondition];
-
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
         colorCondition: colorCondition,
@@ -47,44 +37,32 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>You'll spin the following wheels 12 times each:</p>
-                <div class='wheel-parent'>
-                    <img src="./img/${pic_2win}.png">
-                    <img src="./img/${pic_3win}.png">
-                    <img src="./img/${pic_4win}.png">
-                </div>
-            </div>`,
-
-            `<div class='parent'>
-                <p>'W' wedges are worth 10 points.</p><p>'L' wedges are worth 0 points.</p>
-                <div class='wheel-parent'>
-                    <img src="./img/${pic_2win}.png">
-                    <img src="./img/${pic_3win}.png">
-                    <img src="./img/${pic_4win}.png">
-                </div>            
+                <p>Each wheel has six wedges, like this:</p>
+                <img src="./img/pre-pic.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
-                <img src="./img/${pic_won}.png" style="width:50%; height:50%">
+                <img src="./img/post-pic.png" style="width:50%; height:50%">
+            </div>`,
+
+            `<div class='parent'>
+                <p>The number on the activated wedge is added to your score.</p>
+                <p>For example, in this scenario, you'd receive 8 points.</p>
+                <img src="./img/post-pic.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>After each spin, you'll see how many points you earned.</p>
-                <p>If you land on a 'W' wedge, you'll see this message:</p>
-                <div class="win-text-inst" style="color:${colors[1]}; margin-bottom: 100px">+10 Points</div>
-            </div>`,
-
-            `<div class='parent'>
-                <p>If you land on a 'L' wedge, you'll see this message:</p>
-                <div class="win-text-inst" style="color:${colors[0]}; margin-bottom: 100px">+0 Points</div>
+                <p>Specifically, you'll see a message like this:</p>
+                <div class="win-text-inst" style="color:grey; margin-bottom: 100px">+8 Points</div>
             </div>`,
 
             `<div class='parent'>
                 <p>To spin a prize wheel, just grab and pull it with your cursor.</p>
                 <p>Watch the animation below to see how it's done.</p>
-                <img src="./img/${gif}.gif" style="width:50%; height:50%">
+                <img src="./img/spin-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -103,44 +81,32 @@ const exp = (function() {
             </div>`,
 
             `<div class='parent'>
-                <p>Each wheel is divided into four wedges, like this:</p>
-                <div class='wheel-parent'>
-                    <img src="./img/${pic_2win}.png">
-                    <img src="./img/${pic_3win}.png">
-                    <img src="./img/${pic_4win}.png">
-                </div>       
-            </div>`,
-
-            `<div class='parent'>
-                <p>'W' wedges are worth 10 points.</p><p>'L' wedges are worth 0 points.</p>
-                <div class='wheel-parent'>
-                    <img src="./img/${pic_2win}.png">
-                    <img src="./img/${pic_3win}.png">
-                    <img src="./img/${pic_4win}.png">
-                </div>       
+                <p>Each wheel has six wedges, like this:</p>
+                <img src="./img/pre-pic.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
                 <p>When a wheel stops spinning, the wedge it lands on will activate.</p>
                 <p>The activated wedge will turn black, like this:</p>
-                <img src="./img/${pic_won}.png" style="width:50%; height:50%">
+                <img src="./img/post-pic.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>After each spin, players see how many points they earned.</p>
-                <p>If a player lands on a 'W' wedge, they'll see this message:</p>
-                <div class="win-text-inst" style="color:${colors[1]}; margin-bottom: 100px">+10 Points</div>
+                <p>The number on the activated wedge is added to the player's score.</p>
+                <p>For example, in this scenario, the player would receive 8 points.</p>
+                <img src="./img/post-pic.png" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
-                <p>If a player lands on a 'L' wedge, they'll see this message:</p>
-                <div class="win-text-inst" style="color:${colors[0]}; margin-bottom: 100px">+0 Points</div>
+                <p>After each spin, the player sees how many points they earned.</p>
+                <p>Specifically, they see a message like this:</p>
+                <div class="win-text-inst" style="color:grey; margin-bottom: 100px">+8 Points</div>
             </div>`,
 
             `<div class='parent'>
                 <p>To spin a prize wheel, players just grab and pull it with their cursor.</p>
                 <p>Watch the animation below to see how it's done.</p>
-                <img src="./img/${gif}.gif" style="width:50%; height:50%">
+                <img src="./img/spin-gif.gif" style="width:50%; height:50%">
             </div>`,
 
             `<div class='parent'>
@@ -268,18 +234,24 @@ const exp = (function() {
 
     // define each wedge
     const wedges = {
-        lose: {color: colors[0], font: 'white', label:"L", points: 0},
-        win: {color: colors[1], font: 'white', label:"W", points: 10},
+        four: {color: "green", font: 'white', label:"4", points: 4},
+        nine: {color: "purple", font: 'white', label:"9", points: 9},
+        ten: {color: colors[0], font: 'white', label:"10", points: 10},
+        fifteen: {color: colors[1], font: 'white', label:"15", points: 15},
     };
 
-    // define each wheel
-    let wheels = [
-            {sectors: [ wedges.lose, wedges.lose, wedges.win, wedges.lose, wedges.lose, wedges.win ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
-            {sectors: [ wedges.lose, wedges.win, wedges.lose, wedges.win, wedges.lose, wedges.win ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
-            {sectors: [ wedges.win, wedges.win, wedges.lose, wedges.win, wedges.win, wedges.lose ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
-        ];
+    let baseline_wheels = [
+        {sectors: [ wedges.four, wedges.four, wedges.nine, wedges.four, wedges.four, wedges.nine ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+    ];
 
-    wheels = jsPsych.randomization.repeat(wheels, 1);
+    // define each wheel
+    let target_wheels = [
+        {sectors: [ wedges.ten, wedges.ten, wedges.ten, wedges.ten, wedges.ten, wedges.fifteen ], wheel_id: 1, reliability: 1, label: "100%", ev: 2.33, mi: .65},
+        {sectors: [ wedges.ten, wedges.fifteen, wedges.ten, wedges.fifteen, wedges.ten, wedges.fifteen ], wheel_id: 2, reliability: 1, label: "100%", ev: 5, mi: 1},
+        {sectors: [ wedges.fifteen, wedges.fifteen, wedges.fifteen, wedges.fifteen, wedges.fifteen, wedges.ten ], wheel_id: 3, reliability: 1, label: "100%", ev: 7.67, mi: .65},
+    ];
+
+    target_wheels = jsPsych.randomization.repeat(target_wheels, 1);
 
 
     const MakeSpinLoop = function(wheel, round, play) {
@@ -309,10 +281,12 @@ const exp = (function() {
             stimulus: function() {
                 let standardFeedback;
 
-                if (outcome == "W") {
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[1]}">+10 Points</div>`;
+                if (outcome == "9" || outcome == "15") {
+                    let feedbackColor = (outcome == "9") ? "purple" : colors[1];
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${feedbackColor}">+${outcome} Points</div>`;
                 } else {
-                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${colors[0]}">+0 Points</div>`;
+                    let feedbackColor = (outcome == "4") ? "green" : colors[0];
+                    standardFeedback = `<div class="score-board-blank"></div> <div class="feedback-area"> <div class="win-text" style="color:${feedbackColor}">+${outcome} Points</div>`;
                 };
 
                 return standardFeedback;
@@ -376,9 +350,8 @@ const exp = (function() {
     }
 
 
-    p.round1 = new MakeSpinLoop(wheels[0], 0, playOrPredict)
-    p.round2 = new MakeSpinLoop(wheels[1], 1, playOrPredict)
-    p.round3 = new MakeSpinLoop(wheels[2], 2, playOrPredict)
+    p.round1 = new MakeSpinLoop(baseline_wheels[0], 0, playOrPredict)
+    p.round2 = new MakeSpinLoop(target_wheels[0], 1, playOrPredict)
 
    /*
     *
@@ -457,7 +430,7 @@ const exp = (function() {
     p.save_data = {
         type: jsPsychPipe,
         action: "save",
-        experiment_id: "CAAX3No74jY1",
+        experiment_id: "EjxbnkRrsh2V",
         filename: filename,
         data_string: ()=>jsPsych.data.get().csv()
     };
@@ -466,6 +439,6 @@ const exp = (function() {
 
 }());
 
-const timeline = [exp.consent, exp.instLoop, exp.postIntro, exp.round1, exp.round2, exp.round3, exp.demographics, exp.save_data];
+const timeline = [exp.consent, exp.instLoop, exp.postIntro, exp.round1, exp.round2, exp.demographics, exp.save_data];
 
 jsPsych.run(timeline);
