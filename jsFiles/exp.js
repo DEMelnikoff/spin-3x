@@ -5,19 +5,14 @@ const exp = (function() {
 
     var p = {};
 
-    // const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
+    const playOrPredict = ["play", "predict"][Math.floor(Math.random() * 2)]; 
 
-    const playOrPredict = ["play", "predict"][0]; 
+    // const playOrPredict = ["play", "predict"][0]; 
 
     const nTrials = 12;
 
-    const colorCondition = Math.floor(Math.random() * 2);
-
-    const colors = [["#0077CC", "#FF6B2D"], ["#FF6B2D", "#0077CC"]][colorCondition];
-
     jsPsych.data.addProperties({
         playOrPredict: playOrPredict,
-        colorCondition: colorCondition,
     });
 
 
